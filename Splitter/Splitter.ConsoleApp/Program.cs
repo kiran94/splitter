@@ -3,11 +3,14 @@
     using System;
     using Splitter.Framework;
     using YoutubeExplode;
+    using System.IO;
 
     class Program
     {
         static void Main(string[] args)
         {
+            const string tempFile = "downloaded.tmp";
+
             var url = "https://www.youtube.com/watch?v=ppzcjw2Xq1Y";
             var client = new YoutubeClient();
             var repository = new YoutubeRepository(client);
@@ -24,9 +27,31 @@
             {
                 Console.WriteLine(currentTrack.Key + " " + currentTrack.Value);
             }
+
+            WriteLine("Extracting Audio: " + url);
+            string ext = string.Empty;
+            using (var stream = new FileStream(tempFile, FileMode.OpenOrCreate))
+            {
+                ext = repository.GetAudio(url, stream);
+            }
+
+            var completeTemp = $"downloaded.{ext}";
+            WriteLine($"Renaming {tempFile} -> " + completeTemp);
+            if (File.Exists(completeTemp))
+            {
+                File.Delete(completeTemp);
+            }
+
+            File.Move(tempFile, completeTemp);
+            File.Delete(tempFile);
+
+
+
+
+
         }
 
-        static void WriteLine(string text)
+        private static void WriteLine(string text)
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine(text);

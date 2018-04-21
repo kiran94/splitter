@@ -1,5 +1,7 @@
 namespace Splitter.Framework
 {
+    using System.IO;
+
     /// <summary>
     /// Defines behaviour for interacting with Youtube.
     /// </summary>
@@ -11,5 +13,13 @@ namespace Splitter.Framework
         /// <param name="url">URL of the youtube video to retrieve</param>
         /// <returns>string representation of the description.</returns>
         string GetDescription(string url);
+
+        /// <summary>
+        /// Gets the Audio of a Youtube Video in the form of a Stream.
+        /// </summary>
+        /// <param name="url">URL of the Youtube video.</param>
+        /// <param name="output">stream to write data too.</param>
+        /// <returns>File extension of downloaded data</returns>
+        string GetAudio(string url, Stream output);
     }
 }
