@@ -3,7 +3,6 @@
     using System;
     using Splitter.Framework;
     using YoutubeExplode;
-    using System.IO;
 
     /// <summary>
     /// Main Program.
@@ -16,14 +15,14 @@
         /// <param name="args">command line arguments.</param>
         static void Main(string[] args)
         {
-            const string tempFile = "downloaded.tmp";
-
             var url = "https://www.youtube.com/watch?v=ppzcjw2Xq1Y";
             var descriptionRegex = @"(\d\d:\d\d)(\s|-)(.+)";
+            var tempFile = "downloaded.tmp";
 
             var client = new YoutubeClient();
             var repository = new YoutubeRepository(client);
             var descriptionParser = new DescriptionParser(descriptionRegex);
+            var downloadService = new DownloadService(repository);
 
             WriteLine("Getting Metadata");
             var metadata = repository.GetMetadata(url);
@@ -34,25 +33,14 @@
             WriteLine($"Found {metadata.Tracks.Count} Tracks:");
             foreach(var currentTrack in metadata.Tracks)
             {
-                Console.WriteLine(currentTrack.Key + " " + currentTrack.Value);
+                Console.WriteLine($"{currentTrack.Key} {currentTrack.Value}");
             }
 
             WriteLine("Extracting Audio: " + metadata.Url);
-            var ext = string.Empty;
-            using (var stream = new FileStream(tempFile, FileMode.OpenOrCreate))
-            {
-                ext = repository.GetAudio(metadata.Url, stream);
-            }
+            metadata.tempFileLocation = tempFile;
+            downloadService.Download(metadata);
 
-            var completeTemp = $"downloaded.{ext}";
-            WriteLine($"Renaming {tempFile} -> " + completeTemp);
-            if (File.Exists(completeTemp))
-            {
-                File.Delete(completeTemp);
-            }
-
-            File.Move(tempFile, completeTemp);
-            File.Delete(tempFile);
+            WriteLine("Complete: " + metadata.tempFileLocation);
         }
 
         /// <summary>

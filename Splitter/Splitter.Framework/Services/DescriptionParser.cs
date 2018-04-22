@@ -12,7 +12,7 @@ namespace Splitter.Framework
         /// </summary>
         private Regex trackRegularExpression;
 
-          /// <summary>
+        /// <summary>
         /// Initializes a new instance of the <see cref="DescriptionParser"/> class.
         /// </summary>
         /// <param name="descriptionRegex">Regular expression to parse the description.</param>

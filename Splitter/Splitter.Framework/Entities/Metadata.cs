@@ -43,5 +43,11 @@ namespace Splitter.Framework
         /// </summary>
         /// <returns>the tracks.</returns>
         public IDictionary<string, string> Tracks { get; set; }
+
+        /// <summary>
+        /// Gets or sets the temporary file location for downloading files.
+        /// </summary>
+        /// <returns>temp file location.</returns>
+        public string tempFileLocation {get; set; }
     }
 }
