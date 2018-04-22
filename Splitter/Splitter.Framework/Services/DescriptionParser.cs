@@ -15,9 +15,10 @@ namespace Splitter.Framework
           /// <summary>
         /// Initializes a new instance of the <see cref="DescriptionParser"/> class.
         /// </summary>
-        public DescriptionParser()
+        /// <param name="descriptionRegex">Regular expression to parse the description.</param>
+        public DescriptionParser(string descriptionRegex)
         {
-            this.trackRegularExpression = new Regex(@"(\d\d:\d\d)(\s|-)(.+)", RegexOptions.Compiled);
+            this.trackRegularExpression = new Regex(descriptionRegex, RegexOptions.Compiled);
         }
 
         /// <inheritdoc />
@@ -25,7 +26,7 @@ namespace Splitter.Framework
         {
             if (string.IsNullOrWhiteSpace(description))
             {
-                throw new ArgumentException("Description was null or empty");
+                throw new ArgumentException($"{nameof(description)} was null or empty");
             }
 
             var matches = this.trackRegularExpression.Matches(description);

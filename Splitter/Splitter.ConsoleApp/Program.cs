@@ -12,9 +12,11 @@
             const string tempFile = "downloaded.tmp";
 
             var url = "https://www.youtube.com/watch?v=ppzcjw2Xq1Y";
+            var descriptionRegex = @"(\d\d:\d\d)(\s|-)(.+)";
+
             var client = new YoutubeClient();
             var repository = new YoutubeRepository(client);
-            var descriptionParser = new DescriptionParser();
+            var descriptionParser = new DescriptionParser(descriptionRegex);
 
             WriteLine("Getting Metadata");
             var metadata = repository.GetMetadata(url);

@@ -91,7 +91,7 @@ namespace Splitter.Framework.Tests
         /// <returns>the instance.</returns>
         private DescriptionParser GetInstance()
         {
-            return new DescriptionParser();
+            return new DescriptionParser(@"(\d\d:\d\d)(\s|-)(.+)");
         }
     }
 }
