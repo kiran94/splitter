@@ -37,7 +37,7 @@
             metadata.tempFileLocation = tempFile;
             downloadService.Download(metadata);
 
-            WriteLine("Complete: " + metadata.tempFileLocation);
+            
         }
 
         /// <summary>

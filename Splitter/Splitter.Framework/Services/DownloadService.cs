@@ -1,5 +1,6 @@
 namespace Splitter.Framework
 {
+    using System; 
     using System.IO;
 
     /// <inheritdoc />
@@ -29,7 +30,8 @@ namespace Splitter.Framework
                 ext = repository.GetAudio(metadata.Url, stream);
             }
 
-            var completeTemp = $"{Path.GetFileNameWithoutExtension(metadata.tempFileLocation)}.{ext}";
+            Console.WriteLine();
+            var completeTemp = $"{Path.GetDirectoryName(metadata.tempFileLocation)}\\{Path.GetFileNameWithoutExtension(metadata.tempFileLocation)}.{ext}";
             if (File.Exists(completeTemp))
             {
                 File.Delete(completeTemp);
