@@ -48,7 +48,25 @@ namespace Splitter.Framework
         /// Gets or sets the temporary file location for downloading files.
         /// </summary>
         /// <returns>temp file location.</returns>
-        public string tempFileLocation {get; set; }
+        public string tempFileLocation { get; set; }
+
+        /// <summary>
+        /// Gets or sets the file extension.
+        /// </summary>
+        /// <returns>the file extension.</returns>
+        public string fileExtension { get; set; }
+
+        /// <summary>
+        /// Gets the Byte Rate.
+        /// </summary>
+        /// <returns></returns>
+        public long byteRate {get; set;}
+
+        /// <summary>
+        /// Gets the Total Bytes.
+        /// </summary>
+        /// <returns></returns>
+        public long totalBytes { get; set; }
 
         /// <summary>
         /// Prints Tracks to Console.

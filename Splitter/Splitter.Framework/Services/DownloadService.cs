@@ -27,11 +27,11 @@ namespace Splitter.Framework
             var ext = string.Empty;
             using (var stream = new FileStream(metadata.tempFileLocation, FileMode.OpenOrCreate))
             {
-                ext = repository.GetAudio(metadata.Url, stream);
+                metadata.fileExtension = repository.GetAudio(metadata, stream);
             }
 
             Console.WriteLine();
-            var completeTemp = $"{Path.GetDirectoryName(metadata.tempFileLocation)}\\{Path.GetFileNameWithoutExtension(metadata.tempFileLocation)}.{ext}";
+            var completeTemp = $"{Path.GetDirectoryName(metadata.tempFileLocation)}\\{Path.GetFileNameWithoutExtension(metadata.tempFileLocation)}.{metadata.fileExtension}";
             if (File.Exists(completeTemp))
             {
                 File.Delete(completeTemp);
