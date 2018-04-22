@@ -17,9 +17,9 @@ namespace Splitter.Framework
         /// <summary>
         /// Gets the Audio of a Youtube Video in the form of a Stream.
         /// </summary>
-        /// <param name="url">URL of the Youtube video.</param>
+        /// <param name="metadata">Metadata object.</param>
         /// <param name="output">stream to write data too.</param>
         /// <returns>File extension of downloaded data</returns>
-        string GetAudio(string url, Stream output);
+        string GetAudio(Metadata metadata, Stream output);
     }
 }

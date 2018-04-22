@@ -1,6 +1,8 @@
 ﻿namespace Splitter.ConsoleApp
 {
     using System;
+    using System.Linq;
+    using System.Globalization;
     using Splitter.Framework;
     using YoutubeExplode;
 
@@ -23,6 +25,8 @@
             var repository = new YoutubeRepository(client);
             var descriptionParser = new DescriptionParser(descriptionRegex);
             var downloadService = new DownloadService(repository);
+            var fileIo = new FileIoService();
+            var splitterService = new SplitterService(fileIo);
 
             WriteLine("Getting Metadata");
             var metadata = repository.GetMetadata(url);
@@ -37,7 +41,10 @@
             metadata.tempFileLocation = tempFile;
             downloadService.Download(metadata);
 
-            
+            WriteLine("Splitting Data");
+            splitterService.Split(metadata);
+
+            Console.WriteLine("Done");
         }
 
         /// <summary>

@@ -3,7 +3,6 @@ namespace Splitter.Framework
     using System;
     using System.Linq;
     using System.IO;
-    using System.Threading.Tasks;
     using YoutubeExplode;
 
     /// <inheritdoc />
@@ -47,19 +46,21 @@ namespace Splitter.Framework
         }
 
         /// <inheritdoc />
-        public string GetAudio(string url, Stream output)
+        public string GetAudio(Metadata metadata, Stream output)
         {
-            if (string.IsNullOrWhiteSpace(url))
+            if (string.IsNullOrWhiteSpace(metadata.Url))
             {
                 throw new ArgumentException("URL was null or empty");
             }
 
-            url = YoutubeClient.ParseVideoId(url);
-            var streamInfoSet = this.client.GetVideoMediaStreamInfosAsync(url).Result;
+            string id = YoutubeClient.ParseVideoId(metadata.Url);
+            var streamInfoSet = this.client.GetVideoMediaStreamInfosAsync(id).Result;
 
             var streamInfo = streamInfoSet.Audio.First();
-            this.client.DownloadMediaStreamAsync(streamInfo, output).Wait();
+            metadata.byteRate = streamInfo.Bitrate / 8;
+            metadata.totalBytes = streamInfo.Size;
 
+            this.client.DownloadMediaStreamAsync(streamInfo, output).Wait();
             return streamInfo.Container.ToString();
         }
     }
