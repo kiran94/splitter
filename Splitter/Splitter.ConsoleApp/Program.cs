@@ -31,10 +31,7 @@
             metadata.Tracks = descriptionParser.ParseTracks(metadata.Description);
 
             WriteLine($"Found {metadata.Tracks.Count} Tracks:");
-            foreach(var currentTrack in metadata.Tracks)
-            {
-                Console.WriteLine($"{currentTrack.Key} {currentTrack.Value}");
-            }
+            metadata.PrintTracks();
 
             WriteLine("Extracting Audio: " + metadata.Url);
             metadata.tempFileLocation = tempFile;
