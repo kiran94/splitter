@@ -24,15 +24,26 @@ namespace Splitter.Framework
         }
 
         /// <inheritdoc />
-        public string GetDescription(string url)
+        public Metadata GetMetadata(string url)
         {
             if (string.IsNullOrWhiteSpace(url))
             {
                 throw new ArgumentException("URL was null or empty");
             }
 
-            url = YoutubeClient.ParseVideoId(url);
-            return this.client.GetVideoAsync(url).Result.Description;
+            string Id = YoutubeClient.ParseVideoId(url);
+            var video = this.client.GetVideoAsync(Id).Result;
+
+            var metadata = new Metadata()
+            {
+                Title = video.Title,
+                Author = video.Author,
+                Description = video.Description,
+                Duration = video.Duration,
+                Url = url
+            };
+
+            return metadata;
         }
 
         /// <inheritdoc />

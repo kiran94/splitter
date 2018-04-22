@@ -8,11 +8,11 @@ namespace Splitter.Framework
     public interface IYoutubeRepository
     {
         /// <summary>
-        /// Gets the Description of a Youtube Video.
+        /// Gets the Metadata of a Youtube Video.
         /// </summary>
         /// <param name="url">URL of the youtube video to retrieve</param>
-        /// <returns>string representation of the description.</returns>
-        string GetDescription(string url);
+        /// <returns>metadata object of the video.</returns>
+        Metadata GetMetadata(string url);
 
         /// <summary>
         /// Gets the Audio of a Youtube Video in the form of a Stream.

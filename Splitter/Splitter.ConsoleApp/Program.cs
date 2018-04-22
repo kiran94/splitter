@@ -17,22 +17,22 @@
             var descriptionParser = new DescriptionParser();
 
             WriteLine("Getting Metadata");
-            var description = repository.GetDescription(url);
+            var metadata = repository.GetMetadata(url);
 
             WriteLine("Parsing Tracks");
-            var tracks = descriptionParser.ParseTracks(description);
+            metadata.Tracks = descriptionParser.ParseTracks(metadata.Description);
 
-            WriteLine($"Found {tracks.Count} Tracks:");
-            foreach(var currentTrack in tracks)
+            WriteLine($"Found {metadata.Tracks.Count} Tracks:");
+            foreach(var currentTrack in metadata.Tracks)
             {
                 Console.WriteLine(currentTrack.Key + " " + currentTrack.Value);
             }
 
-            WriteLine("Extracting Audio: " + url);
-            string ext = string.Empty;
+            WriteLine("Extracting Audio: " + metadata.Url);
+            var ext = string.Empty;
             using (var stream = new FileStream(tempFile, FileMode.OpenOrCreate))
             {
-                ext = repository.GetAudio(url, stream);
+                ext = repository.GetAudio(metadata.Url, stream);
             }
 
             var completeTemp = $"downloaded.{ext}";
