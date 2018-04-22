@@ -5,8 +5,15 @@
     using YoutubeExplode;
     using System.IO;
 
+    /// <summary>
+    /// Main Program.
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// Entry point.
+        /// </summary>
+        /// <param name="args">command line arguments.</param>
         static void Main(string[] args)
         {
             const string tempFile = "downloaded.tmp";
@@ -46,13 +53,12 @@
 
             File.Move(tempFile, completeTemp);
             File.Delete(tempFile);
-
-
-
-
-
         }
 
+        /// <summary>
+        /// Writes user output.
+        /// </summary>
+        /// <param name="text">output to write.</param>
         private static void WriteLine(string text)
         {
             Console.ForegroundColor = ConsoleColor.Green;
