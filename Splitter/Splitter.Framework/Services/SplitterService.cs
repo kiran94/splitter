@@ -22,6 +22,11 @@ namespace Splitter.Framework
         private readonly IFFmpegService ffmpegService;
 
         /// <summary>
+        /// The timespan format, timestamps are in.
+        /// </summary>
+        private readonly string timeSpanFormat; 
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="SplitterService" /> class.
         /// </summary>
         /// <param name="fileIoService">injected file io service.</param>
@@ -30,6 +35,8 @@ namespace Splitter.Framework
         {
             this.fileIoService = fileIoService;
             this.ffmpegService = ffmpegService;
+
+            this.timeSpanFormat = @"mm\:ss"; 
         }
 
         /// <inheritdoc />
@@ -45,22 +52,21 @@ namespace Splitter.Framework
                 throw new ArgumentException($"No Tracks found");
             }
 
-            const string TimespanFormat = @"mm\:ss";
-            var tracks = new List<string>(metadata.Tracks.Count);
+            /// Add final entry for the last track.
+            metadata.Tracks.Add(string.Empty, metadata.Duration.ToString(this.timeSpanFormat));
 
+            var tracks = new List<string>(metadata.Tracks.Count);
             for (int i = 0; i < metadata.Tracks.Count - 1; i++)
             {
                 var outputFile = metadata.Tracks.Keys.ElementAt(i).Dehumanize() + ".mp3";
 
-                TimeSpan.TryParseExact(metadata.Tracks.ElementAt(i).Value, TimespanFormat, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var currentTrack);
-                TimeSpan.TryParseExact(metadata.Tracks.ElementAt(i+1).Value, TimespanFormat, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var nextTrack);
+                TimeSpan.TryParseExact(metadata.Tracks.ElementAt(i).Value, this.timeSpanFormat, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var currentTrack);
+                TimeSpan.TryParseExact(metadata.Tracks.ElementAt(i+1).Value, this.timeSpanFormat, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var nextTrack);
 
                 var diff = (int) System.Math.Ceiling((nextTrack - currentTrack).TotalSeconds);
                 this.ffmpegService.Slice(metadata.tempFileLocation, (int)System.Math.Ceiling(currentTrack.TotalSeconds), diff, outputFile);
                 tracks.Add(outputFile);
             }
-
-            // logic for final track..
 
             return tracks;
         }
