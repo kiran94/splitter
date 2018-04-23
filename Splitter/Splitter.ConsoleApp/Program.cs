@@ -5,6 +5,7 @@
     using System.Globalization;
     using Splitter.Framework;
     using YoutubeExplode;
+    using System.Diagnostics;
 
     /// <summary>
     /// Main Program.
@@ -17,6 +18,9 @@
         /// <param name="args">command line arguments.</param>
         static void Main(string[] args)
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             var url = "https://www.youtube.com/watch?v=ppzcjw2Xq1Y";
             var descriptionRegex = @"(\d\d:\d\d)(\s|-)(.+)";
             var tempFile = "downloaded.tmp";
@@ -26,7 +30,8 @@
             var descriptionParser = new DescriptionParser(descriptionRegex);
             var downloadService = new DownloadService(repository);
             var fileIo = new FileIoService();
-            var splitterService = new SplitterService(fileIo);
+            var ffmpegService = new FFmpegService("ffmpeg", 10);
+            var splitterService = new SplitterService(fileIo, ffmpegService);
 
             WriteLine("Getting Metadata");
             var metadata = repository.GetMetadata(url);
@@ -45,6 +50,7 @@
             splitterService.Split(metadata);
 
             Console.WriteLine("Done");
+            Console.WriteLine(stopwatch.ElapsedMilliseconds + " ms.");
         }
 
         /// <summary>
