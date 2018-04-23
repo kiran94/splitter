@@ -18,8 +18,6 @@ namespace Splitter.Framework
         /// </summary>
         private readonly IFFmpegService ffmpegService;
 
-        private string timeSpanFormat;
-
         /// <summary>
         /// Initialises a new instance of the <see cref="SplitterService" /> class.
         /// </summary>
@@ -58,7 +56,7 @@ namespace Splitter.Framework
                 var diff = (int) Math.Ceiling((nextTrack - currentTrack).TotalSeconds);
                 this.ffmpegService.Slice(metadata.tempFileLocation, (int) Math.Ceiling(currentTrack.TotalSeconds), diff, outputFile);
 
-                this.fileIoService.AddMeta(outputFile, metadata.Tracks.Keys.ElementAt(i), metadata.Title, metadata.Author);
+                this.fileIoService.AddMeta(outputFile, metadata.Tracks.Keys.ElementAt(i), metadata.Title, metadata.Author, i+1, metadata.Tracks.Count);
                 tracks.Add(outputFile);
             }
 

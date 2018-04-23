@@ -67,6 +67,8 @@ namespace Splitter.Framework
         /// <param name="title">audio title meta</param>
         /// <param name="album">audio album meta</param>
         /// <param name="author">audio author meta</param>
-        void AddMeta(string path, string title, string album, string author);
+        /// <param name="trackNo">audio track no meta</param>
+        /// <param name="trackCount">audio track total count meta</param>
+        void AddMeta(string path, string title, string album, string author, int trackNo, int trackCount);
     }
 }
