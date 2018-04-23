@@ -25,13 +25,15 @@
             var descriptionRegex = @"(\d\d:\d\d)(\s|-)(.+)";
             var timeSpanFormat = @"mm\:ss";
             var tempFile = "downloaded.tmp";
+            var ffmpegLocation = "ffmpeg";
+            var ffmpegTimeout = 30_000;
 
             var client = new YoutubeClient();
             var repository = new YoutubeRepository(client);
             var descriptionParser = new DescriptionParser(descriptionRegex, timeSpanFormat);
             var downloadService = new DownloadService(repository);
             var fileIo = new FileIoService();
-            var ffmpegService = new FFmpegService("ffmpeg", 10);
+            var ffmpegService = new FFmpegService(ffmpegLocation, ffmpegTimeout);
             var splitterService = new SplitterService(fileIo, ffmpegService);
 
             WriteLine("Getting Metadata");

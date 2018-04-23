@@ -20,11 +20,11 @@ namespace Splitter.Framework
         /// Initialises a new instance of the <see cref="FFmpegService" /> class.
         /// </summary>
         /// <param name="ffmpegLocation">injected ffmpeg location</param>
-        /// <param name="processWaitBeforeTimeout">injected time to wait before timeout.</param>
-        public FFmpegService(string ffmpegLocation, int processWaitBeforeTimeout)
+        /// <param name="processWaitBeforeTimeoutMs">injected time to wait before timeout.</param>
+        public FFmpegService(string ffmpegLocation, int processWaitBeforeTimeoutMs = 30_000)
         {
             this.ffmpegLocation = ffmpegLocation;
-            this.processWaitBeforeTimeout = processWaitBeforeTimeout;
+            this.processWaitBeforeTimeout = processWaitBeforeTimeoutMs;
         }
 
         /// <inheritdoc />
@@ -35,7 +35,7 @@ namespace Splitter.Framework
             process.StartInfo.Arguments = $"-y -i {inputFile} -ss {start} -t {length} -strict -2 {outputFile}";
             process.Start();
 
-            process.WaitForExit(30_000);
+            process.WaitForExit(this.processWaitBeforeTimeout);
 
             if (process.ExitCode != 0)
             {
