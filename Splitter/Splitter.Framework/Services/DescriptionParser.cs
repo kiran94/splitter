@@ -22,10 +22,11 @@ namespace Splitter.Framework
         /// Initializes a new instance of the <see cref="DescriptionParser"/> class.
         /// </summary>
         /// <param name="descriptionRegex">Regular expression to parse the description.</param>
-        public DescriptionParser(string descriptionRegex)
+          /// <param name="timeSpanFormat">Format of timestamps.</param>
+        public DescriptionParser(string descriptionRegex, string timeSpanFormat)
         {
             this.trackRegularExpression = new Regex(descriptionRegex, RegexOptions.Compiled);
-            this.timeSpanFormat = @"mm\:ss";
+            this.timeSpanFormat = timeSpanFormat;
         }
 
         /// <inheritdoc />

@@ -23,11 +23,12 @@
 
             var url = "https://www.youtube.com/watch?v=ppzcjw2Xq1Y";
             var descriptionRegex = @"(\d\d:\d\d)(\s|-)(.+)";
+            var timeSpanFormat = @"mm\:ss";
             var tempFile = "downloaded.tmp";
 
             var client = new YoutubeClient();
             var repository = new YoutubeRepository(client);
-            var descriptionParser = new DescriptionParser(descriptionRegex);
+            var descriptionParser = new DescriptionParser(descriptionRegex, timeSpanFormat);
             var downloadService = new DownloadService(repository);
             var fileIo = new FileIoService();
             var ffmpegService = new FFmpegService("ffmpeg", 10);
