@@ -36,7 +36,7 @@ namespace Splitter.Framework
         /// <param name="path">path of file to open.</param>
         /// <param name="mode">mode of open.</param>
         /// <returns></returns>
-        FileStream Open(string path, FileMode mode);
+        Stream Open(string path, FileMode mode);
 
         /// <summary>
         /// Gets the Directory of the path.
@@ -51,5 +51,12 @@ namespace Splitter.Framework
         /// <param name="path">file path of file</param>
         /// <returns>file name</returns>
         string GetFileWithoutExt(string path);
+
+        /// <summary>
+        /// Determines if a file exists or not.
+        /// </summary>
+        /// <param name="path">file path to check</param>
+        /// <returns>flag if it exists.</returns>
+        bool Exists(string path);
     }
 }

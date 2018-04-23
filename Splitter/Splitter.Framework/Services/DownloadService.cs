@@ -1,6 +1,6 @@
 namespace Splitter.Framework
 {
-    using System; 
+    using System;
     using System.IO;
 
     /// <inheritdoc />
@@ -31,6 +31,16 @@ namespace Splitter.Framework
         /// <inheritdoc />
         public void Download(Metadata metadata)
         {
+            if (metadata == null)
+            {
+                throw new ArgumentNullException(nameof(metadata));
+            }
+
+            if (string.IsNullOrWhiteSpace(metadata.tempFileLocation))
+            {
+                throw new ArgumentNullException(nameof(metadata.tempFileLocation));
+            }
+
             using (var stream = this.fileIoService.Open(metadata.tempFileLocation, FileMode.OpenOrCreate))
             {
                 metadata.fileExtension = repository.GetAudio(metadata, stream);
@@ -42,7 +52,7 @@ namespace Splitter.Framework
 
             var completeTemp = $"{directory}\\{tempFileWithoutExt}.{extension}";
 
-            if (File.Exists(completeTemp))
+            if (this.fileIoService.Exists(completeTemp))
             {
                 this.fileIoService.Delete(completeTemp);
             }

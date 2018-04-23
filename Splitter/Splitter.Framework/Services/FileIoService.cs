@@ -24,7 +24,7 @@ namespace Splitter.Framework
         }
 
         /// <inheritdoc />
-        public FileStream Open(string path, FileMode mode)
+        public Stream Open(string path, FileMode mode)
         {
             return new FileStream(path, mode);
         }
@@ -35,10 +35,16 @@ namespace Splitter.Framework
             return Path.GetDirectoryName(path);
         }
 
-         /// <inheritdoc />
+        /// <inheritdoc />
         public string GetFileWithoutExt(string path)
         {
             return Path.GetFileNameWithoutExtension(path);
+        }
+
+        /// <inheritdoc />
+        public bool Exists(string path)
+        {
+            return File.Exists(path);
         }
     }
 }
