@@ -31,8 +31,8 @@
             var client = new YoutubeClient();
             var repository = new YoutubeRepository(client);
             var descriptionParser = new DescriptionParser(descriptionRegex, timeSpanFormat);
-            var downloadService = new DownloadService(repository);
             var fileIo = new FileIoService();
+            var downloadService = new DownloadService(repository, fileIo);
             var ffmpegService = new FFmpegService(ffmpegLocation, ffmpegTimeout);
             var splitterService = new SplitterService(fileIo, ffmpegService);
 

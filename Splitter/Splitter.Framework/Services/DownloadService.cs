@@ -11,34 +11,44 @@ namespace Splitter.Framework
         /// </summary>
         private readonly IYoutubeRepository repository;
 
+        /// <summary>
+        /// The File IO Service.
+        /// </summary>
+        private readonly IFileIoService fileIoService;
+
          /// <summary>
         /// Initializes a new instance of the <see cref="DownloadService"/> class.
         /// </summary>
         /// <param name="repository">injected repo.</param>
+        /// <param name="fileIoService">injected file io.</param>
 
-        public DownloadService(IYoutubeRepository repository)
+        public DownloadService(IYoutubeRepository repository, IFileIoService fileIoService)
         {
             this.repository = repository;
+            this.fileIoService = fileIoService;
         }
 
         /// <inheritdoc />
         public void Download(Metadata metadata)
         {
-            var ext = string.Empty;
-            using (var stream = new FileStream(metadata.tempFileLocation, FileMode.OpenOrCreate))
+            using (var stream = this.fileIoService.Open(metadata.tempFileLocation, FileMode.OpenOrCreate))
             {
                 metadata.fileExtension = repository.GetAudio(metadata, stream);
             }
 
-            Console.WriteLine();
-            var completeTemp = $"{Path.GetDirectoryName(metadata.tempFileLocation)}\\{Path.GetFileNameWithoutExtension(metadata.tempFileLocation)}.{metadata.fileExtension}";
+            var directory = this.fileIoService.GetDirectory(metadata.tempFileLocation);
+            var tempFileWithoutExt = this.fileIoService.GetFileWithoutExt(metadata.tempFileLocation);
+            var extension = metadata.fileExtension;
+
+            var completeTemp = $"{directory}\\{tempFileWithoutExt}.{extension}";
+
             if (File.Exists(completeTemp))
             {
-                File.Delete(completeTemp);
+                this.fileIoService.Delete(completeTemp);
             }
 
-            File.Move(metadata.tempFileLocation, completeTemp);
-            File.Delete(metadata.tempFileLocation);
+            this.fileIoService.Move(metadata.tempFileLocation, completeTemp);
+            this.fileIoService.Delete(metadata.tempFileLocation);
 
             metadata.tempFileLocation = completeTemp;
         }
