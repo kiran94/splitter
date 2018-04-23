@@ -64,30 +64,5 @@ namespace Splitter.Framework
 
             return tracks;
         }
-
-        /// <summary>
-        /// Computes the number of bytes to extract for the current track based on
-        /// the current timestamp, next timestamp and the bytes per seconds.
-        /// </summary>
-        /// <param name="currentTrackTimestamp">current time track timestamp in timespan format.</param>
-        /// <param name="nextTrackTimestamp">next time track timestamp in timespan format.</param>
-        /// <param name="byteRate">bytes per second</param>
-        /// <param name="timespanFormat">format that the timespan is being passed.</param>
-        /// <returns>The total number of bytes to extract.</returns>
-        private long ComputeBytesToExtract(string currentTrackTimestamp, string nextTrackTimestamp, long byteRate, string timespanFormat)
-        {
-            if (!TimeSpan.TryParseExact(currentTrackTimestamp, timespanFormat, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var currentTrack))
-            {
-                throw new InvalidOperationException($"Could not parse {currentTrackTimestamp} into the timspan: {timespanFormat}");
-            }
-
-            if (!TimeSpan.TryParseExact(nextTrackTimestamp, timespanFormat, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var nextTrack))
-            {
-                throw new InvalidOperationException($"Could not parse {nextTrackTimestamp} into the timspan: {timespanFormat}");
-            }
-
-            var diff = nextTrack - currentTrack;
-            return (long) diff.TotalSeconds * byteRate;
-        }
     }
 }
