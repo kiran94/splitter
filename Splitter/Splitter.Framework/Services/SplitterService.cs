@@ -1,12 +1,9 @@
 namespace Splitter.Framework
 {
     using System;
-    using System.IO;
     using System.Linq;
     using System.Collections.Generic;
     using Humanizer;
-
-    using System.Globalization;
 
     /// <inheritdoc />
     public class SplitterService : ISplitterService
@@ -21,10 +18,7 @@ namespace Splitter.Framework
         /// </summary>
         private readonly IFFmpegService ffmpegService;
 
-        /// <summary>
-        /// The timespan format, timestamps are in.
-        /// </summary>
-        private readonly string timeSpanFormat; 
+        private string timeSpanFormat;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SplitterService" /> class.
@@ -35,8 +29,6 @@ namespace Splitter.Framework
         {
             this.fileIoService = fileIoService;
             this.ffmpegService = ffmpegService;
-
-            this.timeSpanFormat = @"mm\:ss"; 
         }
 
         /// <inheritdoc />
@@ -53,21 +45,21 @@ namespace Splitter.Framework
             }
 
             /// Add final entry for the last track.
-            metadata.Tracks.Add(string.Empty, metadata.Duration.ToString(this.timeSpanFormat));
+            metadata.Tracks.Add(string.Empty, metadata.Duration);
 
             var tracks = new List<string>(metadata.Tracks.Count);
             for (int i = 0; i < metadata.Tracks.Count - 1; i++)
             {
                 var outputFile = metadata.Tracks.Keys.ElementAt(i).Dehumanize() + ".mp3";
 
-                TimeSpan.TryParseExact(metadata.Tracks.ElementAt(i).Value, this.timeSpanFormat, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var currentTrack);
-                TimeSpan.TryParseExact(metadata.Tracks.ElementAt(i+1).Value, this.timeSpanFormat, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var nextTrack);
+                var currentTrack = metadata.Tracks.ElementAt(i).Value;
+                var nextTrack = metadata.Tracks.ElementAt(i+1).Value;
 
                 var diff = (int) System.Math.Ceiling((nextTrack - currentTrack).TotalSeconds);
                 this.ffmpegService.Slice(metadata.tempFileLocation, (int)System.Math.Ceiling(currentTrack.TotalSeconds), diff, outputFile);
-               
 
                 // Add meta information.
+                // TODO: Refactor to its own class or add to file io service
                 var file = TagLib.File.Create(outputFile);
                 file.Tag.Title = metadata.Tracks.Keys.ElementAt(i);
                 file.Tag.Album = metadata.Title;

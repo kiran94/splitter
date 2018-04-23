@@ -42,7 +42,7 @@ namespace Splitter.Framework
         /// Gets or sets the Tracks.
         /// </summary>
         /// <returns>the tracks.</returns>
-        public IDictionary<string, string> Tracks { get; set; }
+        public IDictionary<string, TimeSpan> Tracks { get; set; }
 
         /// <summary>
         /// Gets or sets the temporary file location for downloading files.

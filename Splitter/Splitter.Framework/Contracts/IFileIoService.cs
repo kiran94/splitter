@@ -16,5 +16,11 @@ namespace Splitter.Framework
         /// <param name="share">defines how other processes can access the file.</param>
         /// <returns>Stream to the file.</returns>
         Stream Open(string filePath, FileMode mode, FileAccess access, FileShare share);
+
+        /// <summary>
+        /// Deletes a File.
+        /// </summary>
+        /// <param name="filePath">path of file to delete.</param>
+        void Delete(string filePath);
     }
 }

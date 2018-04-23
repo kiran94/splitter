@@ -1,5 +1,6 @@
 namespace Splitter.Framework
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -11,6 +12,6 @@ namespace Splitter.Framework
         /// Parses Tracks from the given description into a dictionary mapping track name to timestamp.
         /// </summary>
         /// <returns>mapping between trackname and timestamp.</returns>
-        IDictionary<string, string> ParseTracks(string description);
+        IDictionary<string, TimeSpan> ParseTracks(string description);
     }
 }

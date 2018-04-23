@@ -10,5 +10,11 @@ namespace Splitter.Framework
         {
             return File.Open(filePath, mode, access, share);
         }
+
+        /// <inheritdoc />
+        public void Delete(string filePath)
+        {
+            File.Delete(filePath);
+        }
     }
 }

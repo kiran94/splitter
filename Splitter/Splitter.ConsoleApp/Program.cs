@@ -49,6 +49,9 @@
             WriteLine("Splitting Data");
             splitterService.Split(metadata);
 
+            WriteLine("Cleaning temp files");
+            fileIo.Delete(metadata.tempFileLocation);
+
             Console.WriteLine("Done");
             Console.WriteLine(stopwatch.ElapsedMilliseconds + " ms.");
         }
