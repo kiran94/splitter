@@ -58,5 +58,15 @@ namespace Splitter.Framework
         /// <param name="path">file path to check</param>
         /// <returns>flag if it exists.</returns>
         bool Exists(string path);
+
+       
+         /// <summary>
+        /// Adds Audio Meta information to the given file.
+        /// </summary>
+        /// <param name="path">path to audio file to modify.</param>
+        /// <param name="title">audio title meta</param>
+        /// <param name="album">audio album meta</param>
+        /// <param name="author">audio author meta</param>
+        void AddMeta(string path, string title, string album, string author);
     }
 }

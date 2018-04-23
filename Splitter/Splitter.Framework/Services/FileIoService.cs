@@ -46,5 +46,15 @@ namespace Splitter.Framework
         {
             return File.Exists(path);
         }
+
+        /// <inheritdoc />
+        public void AddMeta(string path, string title, string album, string author)
+        {
+            var file = TagLib.File.Create(path);
+            file.Tag.Title = title;
+            file.Tag.Album = album;
+            file.Tag.Performers = new[] { author };
+            file.Save();
+        }
     }
 }
