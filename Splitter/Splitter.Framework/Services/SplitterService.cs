@@ -55,15 +55,15 @@ namespace Splitter.Framework
                 var currentTrack = metadata.Tracks.ElementAt(i).Value;
                 var nextTrack = metadata.Tracks.ElementAt(i+1).Value;
 
-                var diff = (int) System.Math.Ceiling((nextTrack - currentTrack).TotalSeconds);
-                this.ffmpegService.Slice(metadata.tempFileLocation, (int)System.Math.Ceiling(currentTrack.TotalSeconds), diff, outputFile);
+                var diff = (int) Math.Ceiling((nextTrack - currentTrack).TotalSeconds);
+                this.ffmpegService.Slice(metadata.tempFileLocation, (int) Math.Ceiling(currentTrack.TotalSeconds), diff, outputFile);
 
                 // Add meta information.
                 // TODO: Refactor to its own class or add to file io service
                 var file = TagLib.File.Create(outputFile);
                 file.Tag.Title = metadata.Tracks.Keys.ElementAt(i);
                 file.Tag.Album = metadata.Title;
-                file.Tag.AlbumArtists = new[] { metadata.Author };
+                file.Tag.Performers = new[] { metadata.Author };
                 file.Save();
 
                 tracks.Add(outputFile);
