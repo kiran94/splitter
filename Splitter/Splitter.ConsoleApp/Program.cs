@@ -47,8 +47,6 @@
             WriteLine($"Found {metadata.Tracks.Count} Tracks:");
             metadata.PrintTracks();
 
-            //return;
-
             WriteLine("Extracting Audio: " + metadata.Url);
             metadata.tempFileLocation = tempFile;
             downloadService.Download(metadata);

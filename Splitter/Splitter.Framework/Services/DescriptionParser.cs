@@ -43,6 +43,7 @@ namespace Splitter.Framework
 
             foreach (Match currentMatch in matches)
             {
+                var rawTitle = currentMatch.Groups["title"].Value;
                 var rawTimestamp = currentMatch.Groups["time"].Value;
 
                 if (rawTimestamp.Length == 5)
@@ -59,8 +60,15 @@ namespace Splitter.Framework
                     throw new Exception("Could not parse timestamp: " + rawTimestamp);
                 }
 
+                // Sometimes, videos will have the same track listed twice under different timestamps.
+                // This is not the best solution but works for now.
+                if (mapping.ContainsKey(rawTitle))
+                {
+                    rawTitle += " (2)";
+                }
+
                 // Track Name -> Track Timestamp
-                mapping.Add(currentMatch.Groups["title"].Value, currentTrack);
+                mapping.Add(rawTitle, currentTrack);
             }
 
             return mapping;
