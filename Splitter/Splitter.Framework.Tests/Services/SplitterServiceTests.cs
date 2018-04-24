@@ -85,6 +85,8 @@ namespace Splitter.Framework
         {
             var metadata = new Metadata();
             metadata.tempFileLocation = "temp.WebM";
+            metadata.Title = "Title";
+            metadata.Author = "Author";
             metadata.Duration = new TimeSpan(0, 4, 0);
 
             metadata.Tracks = new Dictionary<string, TimeSpan>();
@@ -94,7 +96,13 @@ namespace Splitter.Framework
             metadata.Tracks.Add("Track 4", new TimeSpan(0, 3, 0));
 
             var service = this.GetInstance();
-            service.Split(metadata);
+            var tracks = service.Split(metadata);
+
+            Assert.AreEqual(4, tracks.Count);
+            Assert.That(tracks.Contains("Track1.mp3"));
+            Assert.That(tracks.Contains("Track2.mp3"));
+            Assert.That(tracks.Contains("Track3.mp3"));
+            Assert.That(tracks.Contains("Track4.mp3"));
 
             this.ffmpegService
                 .Verify(x => x.Slice(
@@ -103,7 +111,14 @@ namespace Splitter.Framework
                                 It.IsAny<int>(),
                                 It.IsIn(metadata.Tracks.Keys.Select(y => y.Dehumanize() + ".mp3"))));
 
-            //throw new NotImplementedException();
+            this.fileIoService
+                .Verify(x => x.AddMeta(
+                                It.IsIn(metadata.Tracks.Keys.Select(y => y.Dehumanize() + ".mp3")),
+                                It.IsIn(metadata.Tracks.Keys.Select(y => y)),
+                                metadata.Title,
+                                metadata.Author,
+                                It.IsIn(1, 2, 4, 4),
+                                metadata.Tracks.Count));
         }
 
         /// <summary>
