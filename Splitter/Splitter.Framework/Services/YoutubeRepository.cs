@@ -57,8 +57,6 @@ namespace Splitter.Framework
             var streamInfoSet = this.client.GetVideoMediaStreamInfosAsync(id).Result;
 
             var streamInfo = streamInfoSet.Audio.First();
-            metadata.byteRate = streamInfo.Bitrate / 8;
-            metadata.totalBytes = streamInfo.Size;
 
             this.client.DownloadMediaStreamAsync(streamInfo, output).Wait();
             return streamInfo.Container.ToString();

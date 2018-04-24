@@ -57,18 +57,6 @@ namespace Splitter.Framework
         public string fileExtension { get; set; }
 
         /// <summary>
-        /// Gets the Byte Rate.
-        /// </summary>
-        /// <returns></returns>
-        public long byteRate {get; set;}
-
-        /// <summary>
-        /// Gets the Total Bytes.
-        /// </summary>
-        /// <returns></returns>
-        public long totalBytes { get; set; }
-
-        /// <summary>
         /// Prints Tracks to Console.
         /// </summary>
         public void PrintTracks()
