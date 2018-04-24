@@ -1,7 +1,6 @@
 namespace Splitter.Framework
 {
     using System.IO;
-    using TagLib;
 
     /// <inheritdoc />
     public class FileIoService : IFileIoService

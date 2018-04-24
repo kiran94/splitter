@@ -86,12 +86,34 @@ namespace Splitter.Framework.Tests
         }
 
         /// <summary>
+        /// Ensures when there are tracks with hour long timestamps they are parsed.
+        /// </summary>
+        [Test]
+        public void ParseTracks_TracksWithHourLongTimestamp_Parsed()
+        {
+            var desc = "1.- 1:00:00-Salamander\n2.- 01:12:00-Mahou Hatsudou\n3.- 1:31:21-Dragon Force";
+            var service = this.GetInstance();
+
+            var tracks = service.ParseTracks(desc);
+
+            Assert.AreEqual(3, tracks.Count);
+
+            Assert.That(tracks.ContainsKey("Salamander"));
+            Assert.That(tracks.ContainsKey("Mahou Hatsudou"));
+            Assert.That(tracks.ContainsKey("Dragon Force"));
+
+            Assert.AreEqual("01:00:00", tracks["Salamander"].ToString());
+            Assert.AreEqual("01:12:00", tracks["Mahou Hatsudou"].ToString());
+            Assert.AreEqual("01:31:21", tracks["Dragon Force"].ToString());
+        }
+
+        /// <summary>
         /// Gets the instance.
         /// </summary>
         /// <returns>the instance.</returns>
         private DescriptionParser GetInstance()
         {
-            return new DescriptionParser(@"(\d\d:\d\d)(\s|-)(.+)", @"mm\:ss");
+            return new DescriptionParser(@"(?<time>\d{2}:\d{2}|\d:\d{2}:\d{2})(\s|-)(?<title>.+)");
         }
     }
 }

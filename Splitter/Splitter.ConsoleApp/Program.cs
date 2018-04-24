@@ -21,16 +21,18 @@
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            var url = "https://www.youtube.com/watch?v=ppzcjw2Xq1Y";
-            var descriptionRegex = @"(\d\d:\d\d)(\s|-)(.+)";
-            var timeSpanFormat = @"mm\:ss";
+            //var url = "https://www.youtube.com/watch?v=ppzcjw2Xq1Y";
+            var url = "https://www.youtube.com/watch?v=tFt3uyggrM4";
+
+            //var descriptionRegex = @"(\d\d:\d\d)(\s|-)(.+)";
+            var descriptionRegex = @"(?<time>\d{2}:\d{2}|\d:\d{2}:\d{2})(\s|-)(?<title>.+)";
             var tempFile = "downloaded.tmp";
             var ffmpegLocation = "ffmpeg";
             var ffmpegTimeout = 30_000;
 
             var client = new YoutubeClient();
             var repository = new YoutubeRepository(client);
-            var descriptionParser = new DescriptionParser(descriptionRegex, timeSpanFormat);
+            var descriptionParser = new DescriptionParser(descriptionRegex);
             var fileIo = new FileIoService();
             var downloadService = new DownloadService(repository, fileIo);
             var ffmpegService = new FFmpegService(ffmpegLocation, ffmpegTimeout);
@@ -44,6 +46,8 @@
 
             WriteLine($"Found {metadata.Tracks.Count} Tracks:");
             metadata.PrintTracks();
+
+            //return;
 
             WriteLine("Extracting Audio: " + metadata.Url);
             metadata.tempFileLocation = tempFile;

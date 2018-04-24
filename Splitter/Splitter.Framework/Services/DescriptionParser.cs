@@ -14,19 +14,13 @@ namespace Splitter.Framework
         private Regex trackRegularExpression;
 
         /// <summary>
-        /// The timespan format, timestamps are in.
-        /// </summary>
-        private readonly string timeSpanFormat;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="DescriptionParser"/> class.
         /// </summary>
         /// <param name="descriptionRegex">Regular expression to parse the description.</param>
           /// <param name="timeSpanFormat">Format of timestamps.</param>
-        public DescriptionParser(string descriptionRegex, string timeSpanFormat)
+        public DescriptionParser(string descriptionRegex)
         {
             this.trackRegularExpression = new Regex(descriptionRegex, RegexOptions.Compiled);
-            this.timeSpanFormat = timeSpanFormat;
         }
 
         /// <inheritdoc />
@@ -45,17 +39,28 @@ namespace Splitter.Framework
             }
 
             var mapping = new Dictionary<string, TimeSpan>(matches.Count);
+            string timeSpanFormat = @"mm\:ss";
 
             foreach (Match currentMatch in matches)
             {
-                var rawTimestamp = currentMatch.Groups[1].Value;
-                if (!TimeSpan.TryParseExact(rawTimestamp, this.timeSpanFormat, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var currentTrack))
+                var rawTimestamp = currentMatch.Groups["time"].Value;
+
+                if (rawTimestamp.Length == 5)
+                {
+                    timeSpanFormat = @"mm\:ss";
+                }
+                else if (rawTimestamp.Length == 7)
+                {
+                    timeSpanFormat = @"h\:mm\:ss";
+                }
+
+                if (!TimeSpan.TryParseExact(rawTimestamp, timeSpanFormat, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var currentTrack))
                 {
                     throw new Exception("Could not parse timestamp: " + rawTimestamp);
                 }
 
                 // Track Name -> Track Timestamp
-                mapping.Add(currentMatch.Groups[3].Value, currentTrack);
+                mapping.Add(currentMatch.Groups["title"].Value, currentTrack);
             }
 
             return mapping;
