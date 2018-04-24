@@ -1,6 +1,7 @@
 namespace Splitter.Framework
 {
     using System.IO;
+    using TagLib;
 
     /// <inheritdoc />
     public class FileIoService : IFileIoService
@@ -56,6 +57,9 @@ namespace Splitter.Framework
             file.Tag.Performers = new[] { author };
             file.Tag.Track = (uint) trackNo;
             file.Tag.TrackCount = (uint) trackCount;
+
+            // var image = new Picture(imagepath);
+            // file.Tag.Pictures = new TagLib.IPicture[1] { image };
 
             file.Save();
         }
