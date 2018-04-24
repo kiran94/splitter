@@ -37,7 +37,7 @@ namespace Splitter.Framework
                 throw new ArgumentException($"{metadata} was null");
             }
 
-            if (metadata.Tracks.Count == 0)
+            if (metadata.Tracks == null || metadata.Tracks.Count == 0)
             {
                 throw new ArgumentException($"No Tracks found");
             }
