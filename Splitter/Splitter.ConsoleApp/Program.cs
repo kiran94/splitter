@@ -1,8 +1,6 @@
 ﻿namespace Splitter.ConsoleApp
 {
     using System;
-    using System.Linq;
-    using System.Globalization;
     using Splitter.Framework;
     using YoutubeExplode;
     using System.Diagnostics;
@@ -21,10 +19,8 @@
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            //var url = "https://www.youtube.com/watch?v=ppzcjw2Xq1Y";
-            var url = "https://www.youtube.com/watch?v=tFt3uyggrM4";
+            var url = "https://www.youtube.com/watch?v=ppzcjw2Xq1Y";
 
-            //var descriptionRegex = @"(\d\d:\d\d)(\s|-)(.+)";
             var descriptionRegex = @"(?<time>\d{1,2}:\d{2}|\d{1,2}:\d{2}:\d{2})(\s|-)(?<title>.+)";
             var tempFile = "downloaded.tmp";
             var ffmpegLocation = "ffmpeg";
