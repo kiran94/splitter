@@ -46,13 +46,21 @@ namespace Splitter.Framework
                 var rawTitle = currentMatch.Groups["title"].Value;
                 var rawTimestamp = currentMatch.Groups["time"].Value;
 
-                if (rawTimestamp.Length == 5)
+                if (rawTimestamp.Length == 4)
+                {
+                    timeSpanFormat = @"m\:ss";
+                }
+                else if (rawTimestamp.Length == 5)
                 {
                     timeSpanFormat = @"mm\:ss";
                 }
                 else if (rawTimestamp.Length == 7)
                 {
                     timeSpanFormat = @"h\:mm\:ss";
+                }
+                else if (rawTimestamp.Length == 8)
+                {
+                    timeSpanFormat = @"hh\:mm\:ss";
                 }
 
                 if (!TimeSpan.TryParseExact(rawTimestamp, timeSpanFormat, CultureInfo.CurrentCulture, TimeSpanStyles.None, out var currentTrack))

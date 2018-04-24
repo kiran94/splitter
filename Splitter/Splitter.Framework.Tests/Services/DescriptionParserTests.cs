@@ -108,12 +108,34 @@ namespace Splitter.Framework.Tests
         }
 
         /// <summary>
+        /// Ensures when the timestamp is found with a format of m:ss then it is still parsed.
+        /// </summary>
+        [Test]
+        public void ParseTracks_WithTruncatedMinute_Parsed()
+        {
+            var desc = "1.- 0:00 Salamander\n2.- 2:13 Mahou Hatsudou\n3.- 3:21 Dragon Force";
+            var service = this.GetInstance();
+
+            var tracks = service.ParseTracks(desc);
+
+            Assert.AreEqual(3, tracks.Count);
+
+            Assert.That(tracks.ContainsKey("Salamander"));
+            Assert.That(tracks.ContainsKey("Mahou Hatsudou"));
+            Assert.That(tracks.ContainsKey("Dragon Force"));
+
+            Assert.AreEqual("00:00:00", tracks["Salamander"].ToString());
+            Assert.AreEqual("00:02:13", tracks["Mahou Hatsudou"].ToString());
+            Assert.AreEqual("00:03:21", tracks["Dragon Force"].ToString());
+        }
+
+        /// <summary>
         /// Gets the instance.
         /// </summary>
         /// <returns>the instance.</returns>
         private DescriptionParser GetInstance()
         {
-            return new DescriptionParser(@"(?<time>\d{2}:\d{2}|\d:\d{2}:\d{2})(\s|-)(?<title>.+)");
+            return new DescriptionParser(@"(?<time>\d{1,2}:\d{2}|\d{1,2}:\d{2}:\d{2})(\s|-)(?<title>.+)");
         }
     }
 }

@@ -25,7 +25,7 @@
             var url = "https://www.youtube.com/watch?v=tFt3uyggrM4";
 
             //var descriptionRegex = @"(\d\d:\d\d)(\s|-)(.+)";
-            var descriptionRegex = @"(?<time>\d{2}:\d{2}|\d:\d{2}:\d{2})(\s|-)(?<title>.+)";
+            var descriptionRegex = @"(?<time>\d{1,2}:\d{2}|\d{1,2}:\d{2}:\d{2})(\s|-)(?<title>.+)";
             var tempFile = "downloaded.tmp";
             var ffmpegLocation = "ffmpeg";
             var ffmpegTimeout = 30_000;
