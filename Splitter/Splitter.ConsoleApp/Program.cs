@@ -37,6 +37,9 @@
             WriteLine("Getting Metadata");
             var metadata = repository.GetMetadata(url);
 
+            WriteLine("Getting Thumbnail");
+            repository.GetThumbnail(metadata);
+
             WriteLine("Parsing Tracks");
             metadata.Tracks = descriptionParser.ParseTracks(metadata.Description);
 
@@ -52,6 +55,11 @@
 
             WriteLine("Cleaning temp files");
             fileIo.Delete(metadata.tempFileLocation);
+
+            if (!string.IsNullOrWhiteSpace(metadata.Thumbnail))
+            {
+                fileIo.Delete(metadata.Thumbnail);
+            }
 
             Console.WriteLine("Done");
             Console.WriteLine(stopwatch.ElapsedMilliseconds + " ms.");

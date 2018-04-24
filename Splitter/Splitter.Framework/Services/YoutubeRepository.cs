@@ -4,6 +4,7 @@ namespace Splitter.Framework
     using System.Linq;
     using System.IO;
     using YoutubeExplode;
+    using System.Net;
 
     /// <inheritdoc />
     public class YoutubeRepository : IYoutubeRepository
@@ -39,7 +40,8 @@ namespace Splitter.Framework
                 Author = video.Author,
                 Description = video.Description,
                 Duration = video.Duration,
-                Url = url
+                Url = url,
+                Thumbnail = video.Thumbnails.StandardResUrl
             };
 
             return metadata;
@@ -60,6 +62,28 @@ namespace Splitter.Framework
 
             this.client.DownloadMediaStreamAsync(streamInfo, output).Wait();
             return streamInfo.Container.ToString();
+        }
+
+        /// <inheritdoc />
+        public void GetThumbnail(Metadata metadata)
+        {
+            if (string.IsNullOrWhiteSpace(metadata.Thumbnail))
+            {
+                return;
+            }
+
+            const string path = "thumbnail.jpg";
+
+            using (var client = new WebClient())
+            {
+                var thumbnailBytes = client.DownloadData(metadata.Thumbnail);
+                using (var stream = new MemoryStream(thumbnailBytes))
+                using (var writer = new FileStream(path, FileMode.OpenOrCreate))
+                {
+                    stream.CopyTo(writer);
+                    metadata.Thumbnail = path;
+                }
+            }
         }
     }
 }

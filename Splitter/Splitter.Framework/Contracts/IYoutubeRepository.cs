@@ -21,5 +21,11 @@ namespace Splitter.Framework
         /// <param name="output">stream to write data too.</param>
         /// <returns>File extension of downloaded data</returns>
         string GetAudio(Metadata metadata, Stream output);
+
+        /// <summary>
+        /// Gets the Thumbnail and stores locally based on the detected metadata thumbnail.
+        /// </summary>
+        /// <param name="metadata">metadata object</param>
+        void GetThumbnail(Metadata metadata);
     }
 }

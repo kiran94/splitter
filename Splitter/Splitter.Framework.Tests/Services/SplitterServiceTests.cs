@@ -88,6 +88,7 @@ namespace Splitter.Framework
             metadata.Title = "Title";
             metadata.Author = "Author";
             metadata.Duration = new TimeSpan(0, 4, 0);
+            metadata.Thumbnail = "thumbnail.jpg";
 
             metadata.Tracks = new Dictionary<string, TimeSpan>();
             metadata.Tracks.Add("Track 1", new TimeSpan(0, 0, 0));
@@ -118,7 +119,8 @@ namespace Splitter.Framework
                                 metadata.Title,
                                 metadata.Author,
                                 It.IsIn(1, 2, 4, 4),
-                                metadata.Tracks.Count));
+                                metadata.Tracks.Count, 
+                                metadata.Thumbnail));
         }
 
         /// <summary>

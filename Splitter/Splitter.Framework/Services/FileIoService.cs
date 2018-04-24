@@ -48,7 +48,7 @@ namespace Splitter.Framework
         }
 
         /// <inheritdoc />
-        public void AddMeta(string path, string title, string album, string author, int trackNo, int trackCount)
+        public void AddMeta(string path, string title, string album, string author, int trackNo, int trackCount, string thumbnailPath)
         {
             var file = TagLib.File.Create(path);
             file.Tag.Title = title;
@@ -57,8 +57,11 @@ namespace Splitter.Framework
             file.Tag.Track = (uint) trackNo;
             file.Tag.TrackCount = (uint) trackCount;
 
-            // var image = new Picture(imagepath);
-            // file.Tag.Pictures = new TagLib.IPicture[1] { image };
+            if (!string.IsNullOrWhiteSpace(thumbnailPath))
+            {
+                var image = new TagLib.Picture(thumbnailPath);
+                file.Tag.Pictures = new TagLib.IPicture[1] { image };
+            }
 
             file.Save();
         }

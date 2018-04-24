@@ -32,6 +32,7 @@ msbuild.wrn
 # Visual Studio 2015
 .vs/
 
-# Audio Files
+# Media Files
 *.WebM
 *.mp3
+*.jpg

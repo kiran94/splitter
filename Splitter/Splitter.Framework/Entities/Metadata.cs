@@ -57,6 +57,12 @@ namespace Splitter.Framework
         public string fileExtension { get; set; }
 
         /// <summary>
+        /// Gets or sets the Thumbnail.
+        /// </summary>
+        /// <returns></returns>
+        public string Thumbnail { get; set; }
+
+        /// <summary>
         /// Prints Tracks to Console.
         /// </summary>
         public void PrintTracks()
