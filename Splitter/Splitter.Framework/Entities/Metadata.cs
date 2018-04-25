@@ -61,22 +61,5 @@ namespace Splitter.Framework
         /// </summary>
         /// <returns></returns>
         public string Thumbnail { get; set; }
-
-        /// <summary>
-        /// Prints Tracks to Console.
-        /// </summary>
-        public void PrintTracks()
-        {
-            if (this.Tracks == null || this.Tracks.Count == 0)
-            {
-                Console.WriteLine("No Tracks.");
-                return;
-            }
-
-            foreach(var currentTrack in this.Tracks)
-            {
-                Console.WriteLine($"{currentTrack.Key} {currentTrack.Value}");
-            }
-        }
     }
 }
