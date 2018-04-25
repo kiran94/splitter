@@ -59,13 +59,11 @@
                 }
             }
 
-            WriteLine($"Processing {metadata.Url}", true);
-
-            WriteLine("Extracting Audio: " + metadata.Url, verbose);
+            WriteLine("Extracting Audio: " + metadata.Url, true);
             metadata.tempFileLocation = tempFile;
             downloadService.Download(metadata);
 
-            WriteLine("Splitting Data", verbose);
+            WriteLine($"Splitting Audio into {metadata.Tracks.Count} tracks", true);
             var tracks =  splitterService.Split(metadata);
 
             WriteLine("Output:", true);
