@@ -37,6 +37,7 @@
             var fileIo = kernel.Get<IFileIoService>();
             var downloadService = kernel.Get<IDownloadService>();
             var splitterService = kernel.Get<ISplitterService>();
+            var cleanupService = kernel.Get<ICleanupService>();
 
             WriteLine("Getting Metadata", verbose);
             var metadata = repository.GetMetadata(url);
@@ -72,12 +73,7 @@
             }
 
             WriteLine("Cleaning temp files", verbose);
-            fileIo.Delete(metadata.tempFileLocation);
-
-            if (!string.IsNullOrWhiteSpace(metadata.Thumbnail))
-            {
-                fileIo.Delete(metadata.Thumbnail);
-            }
+            cleanupService.CleanUp(metadata);
 
             if (verbose)
             {
@@ -142,6 +138,7 @@
                 .WithConstructorArgument("ffmpegLocation", arguments.ffmpegLocation)
                 .WithConstructorArgument("processWaitBeforeTimeoutMs", arguments.ffmpegTimeout);
             kernel.Bind<ISplitterService>().To<SplitterService>();
+            kernel.Bind<ICleanupService>().To<CleanupService>();
 
             return kernel;
         }
