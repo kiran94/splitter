@@ -6,6 +6,7 @@
     using System.Diagnostics;
     using System.IO;
     using CommandLine;
+    using Ninject;
 
     /// <summary>
     /// Main Program.
@@ -27,17 +28,15 @@
             var ffmpegLocation = options.ffmpegLocation;
             var ffmpegTimeout = options.ffmpegTimeout;
             var verbose = options.Verbose;
-
-            var descriptionRegex = @"(?<time>\d{1,2}:\d{2}|\d{1,2}:\d{2}:\d{2})(\s|-)(?<title>.+)";
             var tempFile = "downloaded.tmp";
 
-            var client = new YoutubeClient();
-            var repository = new YoutubeRepository(client);
-            var descriptionParser = new DescriptionParser(descriptionRegex);
-            var fileIo = new FileIoService();
-            var downloadService = new DownloadService(repository, fileIo);
-            var ffmpegService = new FFmpegService(ffmpegLocation, ffmpegTimeout);
-            var splitterService = new SplitterService(fileIo, ffmpegService);
+            var kernel = BindDependencies(options);
+
+            var repository = kernel.Get<IYoutubeRepository>();
+            var descriptionParser = kernel.Get<IDescriptionParser>();
+            var fileIo = kernel.Get<IFileIoService>();
+            var downloadService = kernel.Get<IDownloadService>();
+            var splitterService = kernel.Get<ISplitterService>();
 
             WriteLine("Getting Metadata", verbose);
             var metadata = repository.GetMetadata(url);
@@ -124,6 +123,27 @@
             });
 
             return option;
+        }
+
+        /// <summary>
+        /// Binds Dependencies to a Ninject Kernel.
+        /// </summary>
+        private static IKernel BindDependencies(Arguments arguments)
+        {
+            var descriptionRegex = @"(?<time>\d{1,2}:\d{2}|\d{1,2}:\d{2}:\d{2})(\s|-)(?<title>.+)";
+
+            var kernel = new StandardKernel();
+            kernel.Bind<IYoutubeClient>().To<YoutubeClient>();
+            kernel.Bind<IYoutubeRepository>().To<YoutubeRepository>();
+            kernel.Bind<IDescriptionParser>().To<DescriptionParser>().WithConstructorArgument("descriptionRegex", descriptionRegex);;
+            kernel.Bind<IFileIoService>().To<FileIoService>();
+            kernel.Bind<IDownloadService>().To<DownloadService>();
+            kernel.Bind<IFFmpegService>().To<FFmpegService>()
+                .WithConstructorArgument("ffmpegLocation", arguments.ffmpegLocation)
+                .WithConstructorArgument("processWaitBeforeTimeoutMs", arguments.ffmpegTimeout);
+            kernel.Bind<ISplitterService>().To<SplitterService>();
+
+            return kernel;
         }
     }
 }
