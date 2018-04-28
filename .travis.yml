@@ -1,0 +1,7 @@
+language: csharp
+mono: none
+dotnet: 2.1.4
+script:
+ - dotnet restore Splitter/Splitter.sln
+ - dotnet build Splitter/Splitter.sln
+ - dotnet test Splitter/Splitter.Framework.Tests/
