@@ -40,7 +40,7 @@ namespace Splitter.Framework
             string logLevel = "panic";
             if (this.verbose)
             {
-                logLevel = "panic";
+                logLevel = "info";
             }
 
             var process = new Process();
