@@ -136,7 +136,8 @@
             kernel.Bind<IDownloadService>().To<DownloadService>();
             kernel.Bind<IFFmpegService>().To<FFmpegService>()
                 .WithConstructorArgument("ffmpegLocation", arguments.ffmpegLocation)
-                .WithConstructorArgument("processWaitBeforeTimeoutMs", arguments.ffmpegTimeout);
+                .WithConstructorArgument("processWaitBeforeTimeoutMs", arguments.ffmpegTimeout)
+                .WithConstructorArgument("verbose", arguments.Verbose);
             kernel.Bind<ISplitterService>().To<SplitterService>();
             kernel.Bind<ICleanupService>().To<CleanupService>();
 
