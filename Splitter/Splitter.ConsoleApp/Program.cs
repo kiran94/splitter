@@ -124,7 +124,7 @@
 
             var kernel = new StandardKernel();
             kernel.Bind<IYoutubeClient>().To<YoutubeClient>();
-            kernel.Bind<IYoutubeRepository>().To<YoutubeRepository>();
+            kernel.Bind<IYoutubeRepository>().To<YoutubeRepository>().WithConstructorArgument("quality", arguments.Quality);
             kernel.Bind<IDescriptionParser>().To<DescriptionParser>().WithConstructorArgument("descriptionRegex", descriptionRegex);;
             kernel.Bind<IFileIoService>().To<FileIoService>();
             kernel.Bind<IDownloadService>().To<DownloadService>();

@@ -1,6 +1,7 @@
 namespace Splitter.ConsoleApp
 {
     using CommandLine;
+    using Splitter.Framework;
 
     /// <summary>
     /// Command Line Arguments Option.
@@ -54,5 +55,16 @@ namespace Splitter.ConsoleApp
             Default = false,
             HelpText = "Prints all messages to standard output.")]
         public bool Verbose { get; set; }
+
+        /// <summary>
+        /// Gets or sets the audio quality.
+        /// </summary>
+        /// <returns>the set audio quality.</returns>
+        [Option(
+            'q',
+            "quality",
+            Default = AudioQuality.Medium,
+            HelpText = "sets the output audio quality")]
+        public AudioQuality Quality { get; set; }
     }
 }

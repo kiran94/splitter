@@ -5,6 +5,7 @@ namespace Splitter.Framework
     using System.IO;
     using YoutubeExplode;
     using System.Net;
+    using YoutubeExplode.Models.MediaStreams;
 
     /// <inheritdoc />
     public class YoutubeRepository : IYoutubeRepository
@@ -15,12 +16,19 @@ namespace Splitter.Framework
         private readonly IYoutubeClient client;
 
         /// <summary>
+        /// The Audio Quality to download data.
+        /// </summary>
+        private readonly AudioQuality quality;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="YoutubeRepository"/> class.
         /// </summary>
         /// <param name="client">injected client.</param>
-        public YoutubeRepository(IYoutubeClient client)
+        /// <param name="quality">injected quality.</param>
+        public YoutubeRepository(IYoutubeClient client, AudioQuality quality)
         {
             this.client = client;
+            this.quality = quality;
         }
 
         /// <inheritdoc />
@@ -56,9 +64,25 @@ namespace Splitter.Framework
             }
 
             string id = YoutubeClient.ParseVideoId(metadata.Url);
-            var streamInfoSet = this.client.GetVideoMediaStreamInfosAsync(id).Result;
+            var streamInfoSet = this.client.GetVideoMediaStreamInfosAsync(id)
+                .Result
+                .Audio
+                .OrderBy(x => x.Bitrate);
 
-            var streamInfo = streamInfoSet.Audio.First();
+            AudioStreamInfo streamInfo;
+            if (this.quality == AudioQuality.High)
+            {
+                streamInfo = streamInfoSet.Last();
+            }
+            else if (this.quality == AudioQuality.Medium)
+            {
+                var index = (int) streamInfoSet.Count() / 2;
+                streamInfo = streamInfoSet.ElementAt(index);
+            }
+            else
+            {
+                streamInfo = streamInfoSet.First();
+            }
 
             this.client.DownloadMediaStreamAsync(streamInfo, output).Wait();
             return streamInfo.Container.ToString();

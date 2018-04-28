@@ -33,7 +33,7 @@ msbuild.wrn
 .vs/
 
 # Media Files
-*.WebM
+downloaded.*
 *.mp3
 *.jpg
 *.tmp
