@@ -36,3 +36,4 @@ msbuild.wrn
 *.WebM
 *.mp3
 *.jpg
+*.tmp

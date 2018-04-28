@@ -64,13 +64,7 @@
             downloadService.Download(metadata);
 
             WriteLine($"Splitting Audio into {metadata.Tracks.Count} tracks", true);
-            var tracks =  splitterService.Split(metadata);
-
-            WriteLine("Output:", true);
-            foreach (var track in tracks)
-            {
-                Console.WriteLine(track);
-            }
+            var tracks =  splitterService.Split(metadata, (string report) => { Console.WriteLine(report); });
 
             WriteLine("Cleaning temp files", verbose);
             cleanupService.CleanUp(metadata);

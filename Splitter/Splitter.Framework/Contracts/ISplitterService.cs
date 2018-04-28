@@ -1,5 +1,6 @@
 namespace Splitter.Framework
 {
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -14,6 +15,6 @@ namespace Splitter.Framework
         /// </summary>
         /// <param name="metadata">The metadata used to split the information.</param>
         /// <returns>A list of file locations in which data has been split.</returns>
-        IList<string> Split(Metadata metadata);
+       IList<string> Split(Metadata metadata, Action<string> reporter);
     }
 }

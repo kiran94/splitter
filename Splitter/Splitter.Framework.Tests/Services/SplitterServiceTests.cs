@@ -43,7 +43,7 @@ namespace Splitter.Framework
 
             Assert.Throws<ArgumentException>(delegate
             {
-                this.GetInstance().Split(metadata);
+                this.GetInstance().Split(metadata, (string s) => {return;});
             });
         }
 
@@ -58,7 +58,7 @@ namespace Splitter.Framework
 
             Assert.Throws<ArgumentException>(delegate
             {
-                this.GetInstance().Split(metadata);
+                this.GetInstance().Split(metadata, (string s) => {return;});
             });
         }
 
@@ -72,7 +72,7 @@ namespace Splitter.Framework
 
             Assert.Throws<ArgumentException>(delegate
             {
-                this.GetInstance().Split(metadata);
+                this.GetInstance().Split(metadata, (string s) => {return;});
             });
         }
 
@@ -97,7 +97,7 @@ namespace Splitter.Framework
             metadata.Tracks.Add("Track 4", new TimeSpan(0, 3, 0));
 
             var service = this.GetInstance();
-            var tracks = service.Split(metadata);
+            var tracks = service.Split(metadata, (string s) => { return; });
 
             Assert.AreEqual(4, tracks.Count);
             Assert.That(tracks.Contains("Track1.mp3"));

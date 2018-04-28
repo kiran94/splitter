@@ -30,7 +30,7 @@ namespace Splitter.Framework
         }
 
         /// <inheritdoc />
-        public IList<string> Split(Metadata metadata)
+        public IList<string> Split(Metadata metadata, Action<string> reporter)
         {
             if (metadata == null)
             {
@@ -49,6 +49,8 @@ namespace Splitter.Framework
             for (int i = 0; i < metadata.Tracks.Count - 1; i++)
             {
                 var outputFile = metadata.Tracks.Keys.ElementAt(i).Dehumanize() + ".mp3";
+
+                reporter.Invoke("Splicing " + outputFile);;
 
                 var currentTrack = metadata.Tracks.ElementAt(i).Value;
                 var nextTrack = metadata.Tracks.ElementAt(i+1).Value;
