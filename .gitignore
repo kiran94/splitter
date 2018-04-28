@@ -33,7 +33,7 @@ msbuild.wrn
 .vs/
 
 # Media Files
-downloaded.*
+*downloaded.*
 *.mp3
 *.jpg
 *.tmp
