@@ -1,4 +1,4 @@
-# Splitter [![Build Status](https://travis-ci.org/kiran94/splitter.svg?branch=master)](https://travis-ci.org/kiran94/splitter)
+# Splitter [![Build Status](https://travis-ci.org/kiran94/splitter.svg?branch=master)](https://travis-ci.org/kiran94/splitter) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Splitter is a Youtube Video splitter that it intended to be used for long timestamped videos. Splitter takes meta information provided in the video description and extracts the audio for each portion of the video.
 
