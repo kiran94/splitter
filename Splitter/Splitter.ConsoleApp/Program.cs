@@ -25,8 +25,6 @@
             stopwatch.Start();
 
             var url = options.Url;
-            var ffmpegLocation = options.ffmpegLocation;
-            var ffmpegTimeout = options.ffmpegTimeout;
             var verbose = options.Verbose;
             var tempFile = "downloaded.tmp";
 
